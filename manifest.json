@@ -1,0 +1,73 @@
+{
+  "id": "hydro-peak",
+  "name": "Hydro-Québec Peaks",
+  "version": "1.0.0",
+  "description": "Winter peak-demand events from Hydro-Québec open data (Crédit hivernal / Flex D) with what to do.",
+  "author": "Tanya",
+  "license": "MIT",
+  "minAppVersion": "1.7.1",
+  "moduleType": "hydro-peak",
+  "category": "Weather & Environment",
+  "icon": "Zap",
+  "defaultConfig": {
+    "offers": "CPC-D, TPC-DPC",
+    "hideWhenNone": false,
+    "accentColor": "#ea580c"
+  },
+  "defaultSize": {
+    "w": 1000,
+    "h": 220
+  },
+  "defaultStyle": {
+    "fontSize": 18,
+    "padding": 28,
+    "borderRadius": 28
+  },
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "offers": {
+        "type": "string",
+        "title": "Offers",
+        "ui:widget": "text",
+        "ui:group": "Content",
+        "description": "CPC-D = Winter Credit, TPC-DPC = Flex D"
+      },
+      "hideWhenNone": {
+        "type": "boolean",
+        "title": "Minimal when no peak",
+        "ui:widget": "toggle",
+        "ui:group": "Content"
+      },
+      "accentColor": {
+        "type": "string",
+        "title": "Accent colour",
+        "ui:widget": "color",
+        "ui:group": "Look"
+      }
+    }
+  },
+  "exports": {
+    "component": "default"
+  },
+  "dataRequirements": [],
+  "prefetchUrl": null,
+  "permissions": [
+    "network",
+    "storage"
+  ],
+  "allowedDomains": [
+    "donnees.hydroquebec.com"
+  ],
+  "providesState": [
+    {
+      "key": "peak",
+      "label": "Peak event",
+      "sampleValues": [
+        "now",
+        "soon",
+        "none"
+      ]
+    }
+  ]
+}
