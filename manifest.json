@@ -1,8 +1,114 @@
 {
   "id": "hydro-peak",
-  "name": "Hydro-Québec Peak Tracker",
-  "version": "1.1.0",
-  "description": "Automatically detects Hydro-Québec seasons and peak hours for Blainville to optimize appliance usage.",
-  "author": "tweetyboopdev2022-code",
-  "type": "module"
+  "name": "Hydro-Québec Peaks",
+  "version": "1.2.0",
+  "description": "Hydro-Québec peak status at a glance — green off-peak, amber peak hours or an announced event, red during a peak event — with today's peak windows, prices and upcoming events.",
+  "author": "Tanya",
+  "license": "MIT",
+  "minAppVersion": "1.7.1",
+  "moduleType": "hydro-peak",
+  "category": "Weather & Environment",
+  "icon": "Zap",
+  "defaultConfig": {
+    "rate": "flex-d",
+    "offers": "",
+    "windows": "06:00-10:00, 16:00-20:00",
+    "season": "12-01..03-31",
+    "showPrices": true,
+    "priceLow": "",
+    "priceHigh": ""
+  },
+  "defaultSize": {
+    "w": 1000,
+    "h": 150
+  },
+  "defaultStyle": {
+    "fontSize": 18,
+    "padding": 28,
+    "borderRadius": 28
+  },
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "rate": {
+        "type": "string",
+        "title": "Your rate",
+        "enum": [
+          "flex-d",
+          "winter-credit",
+          "rate-d"
+        ],
+        "enumLabels": [
+          "Rate Flex D",
+          "Winter Credit Option",
+          "Rate D (no peak pricing)"
+        ],
+        "ui:widget": "select",
+        "ui:group": "Content"
+      },
+      "showPrices": {
+        "type": "boolean",
+        "title": "Show price per kWh",
+        "ui:widget": "toggle",
+        "ui:group": "Content"
+      },
+      "priceLow": {
+        "type": "string",
+        "title": "Off-peak price (override)",
+        "description": "Leave empty for the April 2026 rate.",
+        "ui:widget": "text",
+        "ui:group": "Prices & schedule"
+      },
+      "priceHigh": {
+        "type": "string",
+        "title": "Peak-event price (override)",
+        "ui:widget": "text",
+        "ui:group": "Prices & schedule"
+      },
+      "windows": {
+        "type": "string",
+        "title": "Peak hours",
+        "description": "Hydro-Québec's peak-event windows, e.g. 06:00-10:00, 16:00-20:00",
+        "ui:widget": "text",
+        "ui:group": "Prices & schedule"
+      },
+      "season": {
+        "type": "string",
+        "title": "Peak season",
+        "description": "MM-DD..MM-DD",
+        "ui:widget": "text",
+        "ui:group": "Prices & schedule"
+      },
+      "offers": {
+        "type": "string",
+        "title": "Event feed offers (advanced)",
+        "description": "Leave empty to match your rate. TPC-DPC = Flex D, CPC-D = Winter Credit",
+        "ui:widget": "text",
+        "ui:group": "Prices & schedule"
+      }
+    }
+  },
+  "exports": {
+    "component": "default"
+  },
+  "dataRequirements": [],
+  "prefetchUrl": null,
+  "permissions": [
+    "network",
+    "storage"
+  ],
+  "allowedDomains": [
+    "donnees.hydroquebec.com"
+  ],
+  "providesState": [
+    {
+      "key": "peak",
+      "label": "Peak event",
+      "sampleValues": [
+        "now",
+        "soon",
+        "none"
+      ]
+    }
+  ]
 }
