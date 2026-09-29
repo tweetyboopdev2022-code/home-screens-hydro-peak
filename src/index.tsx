@@ -1,6 +1,6 @@
 import React from 'react';
 import type { PluginComponentProps } from './hs-plugin';
-import { frame, ink, sdk, useNow, fmtTime, dayKey, localHM } from './ui';
+import { frame, ink, sdk, useNow, fmtTime, dayKey, localHM, Fit } from './ui';
 import { Ev, Win, Level, parseWindows, inSeason, daysToSeason, status, RATES } from './logic';
 
 const URL_BASE = 'https://donnees.hydroquebec.com/api/explore/v2.1/catalog/datasets/evenements-pointe/records';
@@ -56,7 +56,7 @@ export default function HydroPeak({ config, style, timezone: tz, ...rest }: Plug
   const tip = st.level === 'peak' ? 'Turn the heat down a couple of degrees; hold the dryer, dishwasher and oven.'
     : st.level === 'soon' ? 'Pre-heat the house and run laundry or dishes before it starts.'
     : st.level === 'window' ? 'No event declared — normal price, but go easy if you can.'
-    : winter ? '' : `Peak season starts Dec 1 · ${daysToSeason(today, season)} days`;
+    : winter ? '' : `Peak season starts Dec 1 — in ${daysToSeason(today, season)} days`;
 
   // today's timeline: windows (amber, faint in summer) and event blocks (red)
   const evToday = evs.map((e) => {
@@ -68,7 +68,9 @@ export default function HydroPeak({ config, style, timezone: tz, ...rest }: Plug
   const dot = (col: string, size = '0.8em') => <span style={{ width: size, height: size, borderRadius: '50%', background: col, flexShrink: 0, boxShadow: `0 0 0 0.22em color-mix(in srgb, ${col} 22%, transparent)` }} />;
 
   return (
-    <div style={frame(style, { justifyContent: 'center', gap: '0.55em' })}>
+    <div style={frame(style)}>
+      <Fit max={1.5} min={0.6}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55em' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.7em', minWidth: 0 }}>
         {dot(err ? ink(style, 0.3) : c)}
         <span style={{ fontSize: '1.1em', fontWeight: 600, whiteSpace: 'nowrap' }}>{err ? 'Hydro-Québec' : title}</span>
@@ -82,12 +84,14 @@ export default function HydroPeak({ config, style, timezone: tz, ...rest }: Plug
         <div style={{ position: 'absolute', top: '-0.2em', bottom: '-0.2em', left: pct(minute), width: '0.18em', marginLeft: '-0.09em', background: style.textColor || 'currentColor', borderRadius: '0.1em' }} />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1em', fontSize: '0.65em', whiteSpace: 'nowrap', minWidth: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', columnGap: '1em', rowGap: '0.3em', fontSize: '0.65em', whiteSpace: 'nowrap', minWidth: 0 }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '0.45em' }}>{dot('#16a34a', '0.7em')}Off-peak</span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '0.45em', opacity: winter ? 1 : 0.55 }}>{dot('#f59e0b', '0.7em')}Peak hours {wins.map(range).join(' & ')}{winter ? '' : ' · Dec 1 – Mar 31'}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '0.45em', opacity: winter ? 1 : 0.55 }}>{dot('#f59e0b', '0.7em')}Peak hours {wins.map(range).join(' & ')}{winter ? '' : ' (Dec–Mar)'}</span>
         {(st.next || st.current) && <span style={{ display: 'flex', alignItems: 'center', gap: '0.45em' }}>{dot('#dc2626', '0.7em')}{st.current ? 'Event now' : st.level === 'soon' ? 'Event announced' : `Next event ${evWhen(st.next!)}`}</span>}
-        {tip && <span style={{ flex: 1, minWidth: 0, textAlign: 'right', opacity: 0.5, overflow: 'hidden', textOverflow: 'ellipsis' }}>{tip}</span>}
       </div>
+      {tip && <div style={{ fontSize: '0.65em', opacity: 0.55, lineHeight: 1.3 }}>{tip}</div>}
+      </div>
+      </Fit>
     </div>
   );
 }

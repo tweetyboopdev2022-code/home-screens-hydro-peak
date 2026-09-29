@@ -1,7 +1,7 @@
 {
   "id": "hydro-peak",
   "name": "Hydro-Québec Peaks",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Hydro-Québec peak status at a glance — green off-peak, amber peak hours or an announced event, red during a peak event — with today's peak windows, prices and upcoming events.",
   "author": "Tanya",
   "license": "MIT",
