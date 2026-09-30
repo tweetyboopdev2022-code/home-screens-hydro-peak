@@ -95,3 +95,22 @@ export default function HydroPeak({ config, style, timezone: tz, ...rest }: Plug
     </div>
   );
 }
+
+/** Always-on provider (mounted by the host even when no Hydro block is visible):
+ *  publishes `season` = "winter" | "off" so a block can hide itself outside Dec–Mar. */
+export function StateProvider({ demandedKeys, settings }: { demandedKeys: string[]; settings: Record<string, unknown> }) {
+  const wants = demandedKeys.includes('season');
+  const [hour, setHour] = React.useState(() => Math.floor(Date.now() / 3600000));
+  React.useEffect(() => {
+    if (!wants) { sdk()?.clearState?.('hydro-peak', 'season'); return; }
+    const id = setInterval(() => setHour(Math.floor(Date.now() / 3600000)), 600000);
+    return () => clearInterval(id);
+  }, [wants]);
+  React.useEffect(() => {
+    if (!wants) return;
+    const tz = sdk()?.getHostSettings?.()?.timezone;
+    const md = dayKey(new Date(), tz).slice(5);
+    sdk()?.publishState?.('hydro-peak', 'season', inSeason(md, String(settings?.season || '12-01..03-31')) ? 'winter' : 'off');
+  }, [wants, hour, settings?.season]);
+  return null;
+}

@@ -1,8 +1,8 @@
 {
   "id": "hydro-peak",
-  "name": "Hydro-Québec Peaks",
-  "version": "1.2.1",
-  "description": "Hydro-Québec peak status at a glance — green off-peak, amber peak hours or an announced event, red during a peak event — with today's peak windows, prices and upcoming events.",
+  "name": "Hydro-Qu\u00e9bec Peaks",
+  "version": "1.3.0",
+  "description": "Hydro-Qu\u00e9bec peak status at a glance \u2014 green off-peak, amber peak hours or an announced event, red during a peak event \u2014 with today's peak windows, prices and upcoming events.",
   "author": "Tanya",
   "license": "MIT",
   "minAppVersion": "1.7.1",
@@ -68,7 +68,7 @@
       "windows": {
         "type": "string",
         "title": "Peak hours",
-        "description": "Hydro-Québec's peak-event windows, e.g. 06:00-10:00, 16:00-20:00",
+        "description": "Hydro-Qu\u00e9bec's peak-event windows, e.g. 06:00-10:00, 16:00-20:00",
         "ui:widget": "text",
         "ui:group": "Prices & schedule"
       },
@@ -89,7 +89,8 @@
     }
   },
   "exports": {
-    "component": "default"
+    "component": "default",
+    "stateProvider": "StateProvider"
   },
   "dataRequirements": [],
   "prefetchUrl": null,
@@ -108,6 +109,14 @@
         "now",
         "soon",
         "none"
+      ]
+    },
+    {
+      "key": "season",
+      "label": "Peak season (Dec\u2013Mar)",
+      "sampleValues": [
+        "winter",
+        "off"
       ]
     }
   ]
